@@ -1,0 +1,179 @@
+@model MammaIndexViewModel
+
+@{
+    ViewData["Title"] = "Medlemsregister";
+}
+
+<div class="d-flex justify-content-between align-items-center mb-4">
+    <div>
+        <h1>Medlemsregister</h1>
+        <p class="text-muted mb-0">
+            Sök och administrera föreningens stadsdelsmammor.
+        </p>
+    </div>
+
+    <a asp-action="Create"
+       class="btn btn-primary">
+        Lägg till medlem
+    </a>
+</div>
+
+<div class="card shadow-sm mb-4">
+    <div class="card-body">
+        <h2 class="h5">Sök och filtrera</h2>
+
+        <form asp-action="Index"
+              method="get"
+              class="row g-3">
+
+            <div class="col-md-3">
+                <label asp-for="Sok"
+                       class="form-label">
+                    Fritext
+                </label>
+
+                <input asp-for="Sok"
+                       class="form-control"
+                       placeholder="Namn eller telefonnummer" />
+            </div>
+
+            <div class="col-md-3">
+                <label asp-for="Sprak"
+                       class="form-label">
+                    Språk
+                </label>
+
+                <select asp-for="Sprak"
+                        asp-items="Model.TillgangligaSprak"
+                        class="form-select">
+                    <option value="">Alla språk</option>
+                </select>
+            </div>
+
+            <div class="col-md-3">
+                <label asp-for="Omrade"
+                       class="form-label">
+                    Område
+                </label>
+
+                <select asp-for="Omrade"
+                        asp-items="Model.TillgangligaOmraden"
+                        class="form-select">
+                    <option value="">Alla områden</option>
+                </select>
+            </div>
+
+            <div class="col-md-2">
+                <label asp-for="Status"
+                       class="form-label">
+                    Status
+                </label>
+
+                <select asp-for="Status"
+                        asp-items="Model.TillgangligaStatusar"
+                        class="form-select">
+                    <option value="">Alla statusar</option>
+                </select>
+            </div>
+
+            <div class="col-md-1 d-flex align-items-end">
+                <button type="submit"
+                        class="btn btn-primary w-100">
+                    Sök
+                </button>
+            </div>
+
+            <div class="col-12">
+                <a asp-action="Index"
+                   class="btn btn-outline-secondary btn-sm">
+                    Rensa filter
+                </a>
+            </div>
+        </form>
+    </div>
+</div>
+
+<div class="d-flex justify-content-between mb-2">
+    <strong>
+        @Model.Mammor.Count medlem@(Model.Mammor.Count == 1 ? "" : "mar")
+    </strong>
+</div>
+
+<div class="table-responsive">
+    <table class="table table-striped table-hover align-middle">
+        <thead class="table-dark">
+            <tr>
+                <th>Namn</th>
+                <th>Telefonnummer</th>
+                <th>Område</th>
+                <th>Språk</th>
+                <th>Status</th>
+                <th class="text-end">Åtgärder</th>
+            </tr>
+        </thead>
+
+        <tbody>
+            @if (!Model.Mammor.Any())
+            {
+                <tr>
+                    <td colspan="6"
+                        class="text-center text-muted py-4">
+                        Inga medlemmar matchar filtret.
+                    </td>
+                </tr>
+            }
+            else
+            {
+                foreach (var mamma in Model.Mammor)
+                {
+                    <tr>
+                        <td>
+                            <strong>
+                                @mamma.Fornamn @mamma.Efternamn
+                            </strong>
+                        </td>
+
+                        <td>@mamma.Telefonnummer</td>
+                        <td>@mamma.Omrade</td>
+                        <td>@mamma.Sprak</td>
+
+                        <td>
+                            @if (mamma.Status == MammaStatus.Aktiv)
+                            {
+                                <span class="badge text-bg-success">
+                                    Aktiv
+                                </span>
+                            }
+                            else
+                            {
+                                <span class="badge text-bg-warning">
+                                    Pausad
+                                </span>
+                            }
+                        </td>
+
+                        <td class="text-end">
+                            <a asp-action="Details"
+                               asp-route-id="@mamma.Id"
+                               class="btn btn-sm btn-outline-secondary">
+                                Visa
+                            </a>
+
+                            <a asp-action="Edit"
+                               asp-route-id="@mamma.Id"
+                               class="btn btn-sm btn-outline-primary">
+                                Redigera
+                            </a>
+
+                            <a asp-action="Delete"
+                               asp-route-id="@mamma.Id"
+                               class="btn btn-sm btn-outline-danger">
+                                Ta bort
+                            </a>
+                        </td>
+                    </tr>
+                }
+            }
+        </tbody>
+    </table>
+</div>
