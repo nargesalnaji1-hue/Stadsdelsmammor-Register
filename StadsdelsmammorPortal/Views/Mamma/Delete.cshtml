@@ -1,0 +1,51 @@
+@model Mamma
+
+@{
+    ViewData["Title"] = "Ta bort medlem";
+}
+
+<div class="row justify-content-center">
+    <div class="col-md-7">
+        <div class="card border-danger">
+            <div class="card-header bg-danger text-white">
+                Ta bort medlem
+            </div>
+
+            <div class="card-body">
+                <h1 class="h4">
+                    Är du säker på att du vill ta bort denna medlem?
+                </h1>
+
+                <p>
+                    <strong>
+                        @Model.Fornamn @Model.Efternamn
+                    </strong>
+                </p>
+
+                <p class="text-muted">
+                    Denna åtgärd kan inte ångras.
+                </p>
+
+                <form asp-action="DeleteConfirmed"
+                      method="post">
+
+                    @Html.AntiForgeryToken()
+
+                    <input type="hidden"
+                           name="id"
+                           value="@Model.Id" />
+
+                    <button type="submit"
+                            class="btn btn-danger">
+                        Ja, ta bort
+                    </button>
+
+                    <a asp-action="Index"
+                       class="btn btn-secondary">
+                        Avbryt
+                    </a>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>

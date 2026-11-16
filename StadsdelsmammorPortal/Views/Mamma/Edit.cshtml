@@ -1,0 +1,118 @@
+@model MammaFormViewModel
+
+@{
+    ViewData["Title"] = "Redigera medlem";
+}
+
+<h1>Redigera medlem</h1>
+
+<div class="row">
+    <div class="col-md-8 col-lg-7">
+        <form asp-action="Edit"
+              asp-route-id="@Model.Id"
+              method="post">
+
+            @Html.AntiForgeryToken()
+
+            <input asp-for="Id"
+                   type="hidden" />
+
+            <div asp-validation-summary="ModelOnly"
+                 class="text-danger mb-3">
+            </div>
+
+            <div class="row">
+                <div class="col-md-6 mb-3">
+                    <label asp-for="Fornamn"
+                           class="form-label">
+                    </label>
+
+                    <input asp-for="Fornamn"
+                           class="form-control" />
+
+                    <span asp-validation-for="Fornamn"
+                          class="text-danger">
+                    </span>
+                </div>
+
+                <div class="col-md-6 mb-3">
+                    <label asp-for="Efternamn"
+                           class="form-label">
+                    </label>
+
+                    <input asp-for="Efternamn"
+                           class="form-control" />
+
+                    <span asp-validation-for="Efternamn"
+                          class="text-danger">
+                    </span>
+                </div>
+            </div>
+
+            <div class="mb-3">
+                <label asp-for="Telefonnummer"
+                       class="form-label">
+                </label>
+
+                <input asp-for="Telefonnummer"
+                       class="form-control"
+                       type="tel" />
+
+                <span asp-validation-for="Telefonnummer"
+                      class="text-danger">
+                </span>
+            </div>
+
+            <div class="mb-3">
+                <label asp-for="Omrade"
+                       class="form-label">
+                </label>
+
+                <input asp-for="Omrade"
+                       class="form-control" />
+
+                <span asp-validation-for="Omrade"
+                      class="text-danger">
+                </span>
+            </div>
+
+            <div class="mb-3">
+                <label asp-for="Sprak"
+                       class="form-label">
+                </label>
+
+                <input asp-for="Sprak"
+                       class="form-control" />
+
+                <span asp-validation-for="Sprak"
+                      class="text-danger">
+                </span>
+            </div>
+
+            <div class="mb-4">
+                <label asp-for="Status"
+                       class="form-label">
+                </label>
+
+                <select asp-for="Status"
+                        asp-items="Model.TillgangligaStatusar"
+                        class="form-select">
+                </select>
+
+                <span asp-validation-for="Status"
+                      class="text-danger">
+                </span>
+            </div>
+
+            <button type="submit"
+                    class="btn btn-primary">
+                Spara ändringar
+            </button>
+
+            <a asp-action="Index"
+               class="btn btn-secondary">
+                Avbryt
+            </a>
+        </form>
+    </div>
+</div>
